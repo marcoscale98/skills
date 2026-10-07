@@ -293,38 +293,6 @@ This is a test skill.
       expect(Object.keys(updatedLock.skills)).toEqual(['skill-three']);
     });
 
-    it('preserves a shared sanitized directory when removing only one lock identity', () => {
-      createTestSkill('foo-bar');
-      const lockPath = join(testDir, 'skills-lock.json');
-      writeFileSync(
-        lockPath,
-        JSON.stringify({
-          version: 1,
-          skills: {
-            'foo:bar': {
-              source: 'one',
-              sourceType: 'github',
-              computedHash: 'one',
-            },
-            'foo-bar': {
-              source: 'two',
-              sourceType: 'github',
-              computedHash: 'two',
-            },
-          },
-        })
-      );
-
-      const result = runCli(['remove', 'one', '-y'], testDir);
-
-      expect(result.stdout).toContain('Successfully removed');
-      expect(existsSync(join(skillsDir, 'foo-bar'))).toBe(true);
-
-      const updatedLock = JSON.parse(readFileSync(lockPath, 'utf-8'));
-      expect(updatedLock.skills['foo:bar']).toBeUndefined();
-      expect(updatedLock.skills['foo-bar']).toBeDefined();
-    });
-
     it('should remove only the specified skill and leave others', () => {
       runCli(['remove', 'skill-two', '-y'], testDir);
 

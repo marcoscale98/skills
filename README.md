@@ -186,7 +186,7 @@ npx skills init my-skill
 Remove installed skills from agents.
 
 ```bash
-# Remove interactively (select skills grouped by lock source)
+# Remove interactively (select from installed skills)
 npx skills remove
 
 # Remove all skills from an exact lock source
